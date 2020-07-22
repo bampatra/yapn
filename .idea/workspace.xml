@@ -2,89 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="822c5f09-bd0b-4858-81e7-523fc1d476f6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/modules/admin/views/rekening.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/modules/home/controllers/Home.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/controllers/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/controllers/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/models/Admin_model.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/models/Admin_model.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/alamat.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/banner.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/banner_promosi.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/blank.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/catprod.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/chat.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/color.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/excel_test.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/views/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/media_sosial.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/views/golongan.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/order_detail.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/orders.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/pricelist.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/product_v2.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/promo.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/review.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sales.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/blank.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/buttons.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/cards.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/charts.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/forgot-password.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/tables.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/utilities-animation.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/utilities-border.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/utilities-color.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/sample/utilities-other.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/template/admin_footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/views/template/admin_footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/admin/views/template/admin_header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/modules/admin/views/template/admin_header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/article/controllers/Article.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/article/models/Article_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/article/views/cara-pembayaran.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/cart/controllers/Cart.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/cart/models/Cart_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/cart/views/checkout.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/cart/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/category/controllers/Category.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/category/models/Category_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/category/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/chat/controllers/Chat.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/chat/models/Chat_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/chat/views/mobile.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/home/controllers/Home.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/home/models/Home_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/home/views/admin_login.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/home/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/product/controllers/Product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/product/models/Product_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/product/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/controllers/Profile.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/models/Profile_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/daftar_alamat.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/edit_akun.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/favorite.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/purchase.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/purchase_detail.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/review.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/profile/views/terakhir_dilihat.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/controllers/Register.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/models/Register_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/views/activated.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/views/activated_warning.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/views/invalid_token.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/register/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/rekomendasi/controllers/Rekomendasi.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/rekomendasi/models/Rekomendasi_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/rekomendasi/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/search/controllers/Search.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/search/models/Search_model.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/search/views/main.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/template/views/404_page.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/template/views/footer.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/modules/template/views/header.php" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -151,11 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/config/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="385" column="33" lean-forward="true" selection-start-line="385" selection-start-column="33" selection-end-line="385" selection-end-column="33" />
+            <state relative-caret-position="5582">
+              <caret line="385" column="33" selection-start-line="385" selection-start-column="33" selection-end-line="385" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/modules/home/models/Home_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
@@ -428,6 +356,21 @@
             <path>
               <item name="yapn" type="b2602c69:ProjectViewProjectNode" />
               <item name="yapn" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="home" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yapn" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yapn" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="home" type="462c0819:PsiDirectoryNode" />
+              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="yapn" type="b2602c69:ProjectViewProjectNode" />
+              <item name="yapn" type="462c0819:PsiDirectoryNode" />
               <item name="system" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -439,7 +382,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/modules/admin/views" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/modules/home/views" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -455,11 +398,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/application/modules/home/models" />
+      <recent name="$PROJECT_DIR$/application/modules/home/controllers" />
       <recent name="$PROJECT_DIR$/application/modules/admin/views" />
       <recent name="$PROJECT_DIR$/application/modules/register/views" />
       <recent name="$PROJECT_DIR$/application/libraries" />
-      <recent name="$PROJECT_DIR$/assets/upload/excel" />
-      <recent name="$PROJECT_DIR$/application/third_party" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/application/third_party" />
@@ -561,16 +504,15 @@
       <workItem from="1595234502881" duration="655000" />
       <workItem from="1595296830947" duration="516000" />
       <workItem from="1595310575729" duration="6033000" />
-      <workItem from="1595386497441" duration="12729000" />
+      <workItem from="1595386497441" duration="13172000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1094369000" />
+    <option name="totallyTimeSpent" value="1094812000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21163167" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -718,13 +660,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/home/models/Home_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/chat/models/Chat_model.php" />
     <entry file="file://$PROJECT_DIR$/application/modules/profile/models/Profile_model.php" />
     <entry file="file://$PROJECT_DIR$/application/modules/cart/views/main.php" />
@@ -785,13 +720,6 @@
             <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/home/controllers/Home.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
@@ -876,10 +804,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/home/controllers/Home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/config/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="385" column="33" lean-forward="true" selection-start-line="385" selection-start-column="33" selection-end-line="385" selection-end-column="33" />
+        <state relative-caret-position="5582">
+          <caret line="385" column="33" selection-start-line="385" selection-start-column="33" selection-end-line="385" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/home/models/Home_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
