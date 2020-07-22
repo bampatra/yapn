@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>PIRA Admin Dashboard</title>
+    <title>YAPN</title>
 
     <!-- Custom fonts for this template-->
 
@@ -120,7 +120,7 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo base_url('admin')?>">
-            <div class="sidebar-brand-text mx-3">PIRA Admin</sup></div>
+            <div class="sidebar-brand-text mx-3">YAPN</sup></div>
         </a>
 
         <!-- Divider -->
@@ -145,94 +145,16 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true" aria-controls="collapseMaster">
                 <i class="fas fa-fw fa-key"></i>
-                <span>Master</span>
+                <span>Master Data</span>
             </a>
             <div id="collapseMaster" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-produk" class="collapse-item" href="<?php echo base_url('admin/product')?>">Produk</a>
-                    <a id="navbar-warna" class="collapse-item" href="<?php echo base_url('admin/color')?>">Warna</a>
-                    <a id="navbar-kategori" class="collapse-item" href="<?php echo base_url('admin/catprod')?>">Kategori</a>
+                    <a id="navbar-golongan" class="collapse-item" href="<?php echo base_url('admin/golongan')?>">Golongan</a>
+                    <a id="navbar-rekening" class="collapse-item" href="<?php echo base_url('admin/rekening')?>">Rekening</a>
                 </div>
             </div>
         </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHargaPromo" aria-expanded="true" aria-controls="collapseHargaPromo">
-                <i class="fas fa-fw fa-money-bill-wave"></i>
-                <span>Harga dan Promo</span>
-            </a>
-            <div id="collapseHargaPromo" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-harga" class="collapse-item" href="<?php echo base_url('admin/pricelist')?>">Harga</a>
-                    <a id="navbar-promo" class="collapse-item" href="<?php echo base_url('admin/promo')?>">Promo</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
-                <i class="fas fa-fw fa-user"></i>
-                <span>User</span>
-            </a>
-            <div id="collapseUser" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-user" class="collapse-item" href="<?php echo base_url('admin/user')?>">Daftar User</a>
-                    <a id="navbar-alamat" class="collapse-item" href="<?php echo base_url('admin/alamat')?>">Alamat Kirim</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHalamanUtama" aria-expanded="true" aria-controls="collapseHalamanUtama">
-                <i class="fas fa-fw fa-home"></i>
-                <span>Halaman Utama</span>
-            </a>
-            <div id="collapseHalamanUtama" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-banner" class="collapse-item" href="<?php echo base_url('admin/banner')?>">Banner Utama</a>
-                    <a id="navbar-banner-promosi" class="collapse-item" href="<?php echo base_url('admin/banner_promosi')?>">Banner Promosi</a>
-                    <a id="navbar-media-sosial" class="collapse-item" href="<?php echo base_url('admin/media_sosial')?>">Media Sosial</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePesanan" aria-expanded="true" aria-controls="collapsePesanan">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-                <span>Pesanan</span>
-            </a>
-            <div id="collapsePesanan" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-orders" class="collapse-item" href="<?php echo base_url('admin/orders')?>">Kelola Pesanan</a>
-                    <a id="navbar-sales" class="collapse-item" href="<?php echo base_url('admin/sales')?>">Penjualan</a>
-                </div>
-            </div>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCS" aria-expanded="true" aria-controls="collapseCS">
-                <i class="fas fa-fw fa-comments"></i>
-                <span>Customer Service</span>
-            </a>
-            <div id="collapseCS" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Pengaturan:</h6>
-                    <a id="navbar-chat" class="collapse-item" href="<?php echo base_url('admin/chat')?>" target="_blank">Chat</a>
-                    <a id="navbar-review" class="collapse-item" href="<?php echo base_url('admin/review')?>">Ulasan Produk</a>
-                </div>
-            </div>
-        </li>
-
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -272,7 +194,209 @@
 <!-- Page level custom scripts -->
 <script src="<?php echo base_url('assets/chart.js/Chart.js');?>"></script>
 
+<style>
+    /* Mobile only */
+    @media (max-width: 576px) {
+        .desktop-only, .desktop-and-tablet, .desktop-only-tablecell, .desktop-and-tablet-tablecell, .desktop-and-tablet-inlinetable{
+            display: none;
+        }
 
+        .mobile-only{
+            display: block;
+        }
+
+        .main-carousel-img{
+            height: 220px;
+        }
+
+        h2{
+            font-size: 1.5rem;
+        }
+
+        /*h6{*/
+        /*    font-size: 0.8rem;*/
+        /*}*/
+
+        h5{
+            font-size: 0.95rem;
+        }
+
+        .card{
+            display: block;
+        }
+
+        .card-group{
+            display: flex;
+            margin-bottom: -5px;
+
+        }
+
+        .mobile-full-width{
+            width: 100% !important;
+        }
+
+        .product-image{
+            height: 300px;
+            width: 300px;
+        }
+
+        .main-section{
+            margin-left: 3vw;
+            margin-right: 3vw;
+        }
+
+        .pop-up-content, .chat-popup, .show-image-popup, .pop-up-review, .show-image-popup-product{
+            min-width: 95vw;
+        }
+
+        .red-line{
+            border-bottom: 2px solid #a50000;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .pd-nominal{
+            text-align: right;
+            width: 65%;
+            font-size:13px
+        }
+
+        .pd-title{
+            text-align: right;
+            width: 35%;
+            font-size:13px
+        }
+
+        .status_order{
+        }
+
+        .product-lists{
+            padding: 25px 1vw;
+        }
+
+        .card-body{
+            padding: 0.8rem;
+        }
+
+        .link-card{
+            padding: 5px;
+        }
+
+        .filter-title{
+            font-size: 12px;
+        }
+
+        .left-td-profile{
+            width: 100%
+        }
+
+        #catprod-main-content{
+            margin-left: 2vw;
+        }
+
+        .messages{
+            max-width: 80%;
+        }
+
+        .msg_sent{
+            float: right;
+            width: 100%;
+        }
+
+        .msg_container_base{
+            height: calc(100vh - 115px);
+        }
+
+
+    }
+
+
+    /* Desktop and Tablet */
+    @media (min-width: 768px) {
+        .desktop-and-tablet{
+            display: block;
+        }
+
+        .tablecell{
+            display: table-cell;
+        }
+
+        .mobile-only, .desktop-only{
+            display: none;
+        }
+
+        .product-image{
+            height: 320px;
+            width: 320px;
+        }
+
+        .red-line{
+            border-bottom: 2px solid #a50000;
+            margin: 10px 0;
+            width: 70%
+        }
+
+        .purchase_detail{
+            padding: 0 20px;
+        }
+
+        .pd-nominal{
+            text-align: right;
+            width: 30%;
+            font-size:13px
+        }
+
+        .pd-title{
+            text-align: right;
+            width: 70%;
+            font-size:13px
+        }
+
+        .purchase-border-right{
+            border-right: 1px solid lightgrey;
+        }
+
+        .desktop-and-tablet-inlinetable{
+            display: inline-table;
+        }
+
+    }
+
+    @media (max-width: 992px) {
+        .product-filters{
+            width: 100%;
+        }
+    }
+
+    /* Desktop only */
+    @media (min-width: 992px) {
+        .desktop-only, .desktop-and-tablet{
+            display: block;
+        }
+
+        .desktop-only-tablecell, .desktop-and-tablet-tablecell{
+            display: table-cell;
+        }
+
+        .tablecell{
+            display: table-cell;
+        }
+
+        .mobile-only{
+            display: none;
+        }
+
+        .product-image{
+            height: 400px;
+            width: 400px;
+        }
+
+        .product-filters{
+            width: 40%;
+        }
+
+    }
+</style>
 <script>
 
     function show_snackbar(message){
