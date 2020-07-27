@@ -22,6 +22,7 @@
                         <th style="display: none">ID</th>
                         <th style="width: 10%">No.</th>
                         <th style="width: 50%">Golongan</th>
+                        <th> S/N </th>
                         <th> Neraca </th>
                     </tr>
                     </thead>
@@ -58,6 +59,13 @@
                     <div class="form-group" >
                         <label  class="col-form-label">Nama Golongan</label>
                         <input type="text" id="nama_golongan" name="nama_golongan" class="form-control form-active-control">
+                    </div>
+                    <div class="form-group" >
+                        <label  class="col-form-label">S/N</label>
+                        <select id="s_n_golongan" name="s_n_golongan" class="form-control form-active-control">
+                            <option value="Debet">Debet</option>
+                            <option value="Kredit">Kredit</option>
+                        </select>
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">Neraca</label>
@@ -163,6 +171,7 @@
                         '   <td style="display: none;">'+ data.id_golongan +'</td>' +
                         '   <td>'+ data.no_golongan +'</td>' +
                         '   <td>'+ data.nama_golongan +'</td>' +
+                        '   <td>'+ data.s_n_golongan +'</td>' +
                         '   <td>'+ data.neraca +'</td>' +
                         '    </tr>';
 
@@ -207,6 +216,7 @@
             success: function (data) {
                 $('#id_golongan').val(data.id_golongan);
                 $('#no_golongan').val(data.no_golongan);
+                $('#s_n_golongan').val(data.s_n_golongan);
                 $('#nama_golongan').val(htmlDecode(data.nama_golongan));
                 $('#neraca').val(data.neraca);
 

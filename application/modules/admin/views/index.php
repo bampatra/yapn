@@ -25,7 +25,21 @@
                         <table class="desktop-and-tablet-inlinetable">
                             <tr class="tr-form">
                                 <td class="td-main"> Lembaga </td>
-                                <td class="td-secondary"> Yayasan Ari Prshanti Nilayam </td>
+                                <td class="td-secondary">
+
+                                    <select name="default_lembaga" class="form-control lembaga-dropdown">
+                                        <?php
+                                            if($_SESSION['default_lembaga'] == 'Yayasan Ari Prshanti Nilayam'){
+                                                echo("<option value='Yayasan Ari Prshanti Nilayam' selected>Yayasan Ari Prshanti Nilayam</option>
+                                                      <option value='SMK Prshanti Nilayam'>SMK Prshanti Nilayam</option>"."\n");
+                                            } else {
+                                                echo("<option value='Yayasan Ari Prshanti Nilayam'>Yayasan Ari Prshanti Nilayam</option>
+                                                      <option value='SMK Prshanti Nilayam' selected>SMK Prshanti Nilayam</option>"."\n");
+                                            }
+
+                                        ?>
+                                    </select>
+                                </td>
                             </tr>
                             <tr class="tr-form">
                                 <td class="td-main"> Awal Periode </td>
@@ -79,8 +93,7 @@
                 </div>
               </div>
             </div>
-
-
+                <?php print_r($_SESSION) ?>
           </div>
 
 
@@ -116,6 +129,25 @@
                 if(response.Status == "OK"){
                     $('.akhir-periode').html(response.Date);
                     $('.akhir-periode-string').html(response.DateString);
+                }
+
+            }
+        })
+    })
+
+    $('.lembaga-dropdown').change(function(){
+        $('.loading').css("display", "block");
+        $('.Veil-non-hover').fadeIn();
+        $.ajax({
+            type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url: admin_url + 'change_lembaga', // the url where we want to POST// our data object
+            dataType: 'json',
+            data: {lembaga: $('.lembaga-dropdown').val()},
+            success: function (response) {
+                if(response.Status == "OK"){
+                   $('.lembaga-dropdown').val(response.Value);
+                    $('.loading').css("display", "none");
+                    $('.Veil-non-hover').fadeOut();
                 }
 
             }
