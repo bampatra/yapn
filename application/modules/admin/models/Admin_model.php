@@ -81,6 +81,53 @@ class Admin_model extends CI_Model
         return $query;
     }
 
+    function get_bukubesar($no_rek, $s_n){
+//        $sql = "SELECT a.*, (@mutasi := @mutasi + IF(a.DEBET <> 0, a.DEBET, (-1 * a.KREDIT))) AS MUTASI
+//                FROM
+//                (
+//                    SELECT a.tgl_transaksi, a.keterangan_transaksi, IF(b.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS DEBET,  IF(c.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS KREDIT
+//                    FROM transaksi a
+//                    INNER JOIN rekening c ON c.id_rekening = a.rekening_kredit_transaksi
+//                    INNER JOIN rekening b ON b.id_rekening = a.rekening_debet_transaksi
+//                    WHERE b.no_rekening = '$no_rek' OR c.no_rekening = '$no_rek'
+//                    ORDER BY tgl_transaksi
+//                ) a
+//                CROSS JOIN (select @mutasi := 0) params";
+
+        $sql = "SELECT a.*, IF('$s_n' = 'Debet', (@mutasi := @mutasi + IF(a.DEBET <> 0, a.DEBET, (-1 * a.KREDIT))), (@mutasi := @mutasi + IF(a.KREDIT <> 0, a.KREDIT, (-1 * a.DEBET)))) AS MUTASI
+                FROM
+                (
+                    SELECT a.tgl_transaksi, a.keterangan_transaksi, IF(b.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS DEBET,  IF(c.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS KREDIT
+                    FROM transaksi a
+                    INNER JOIN rekening c ON c.id_rekening = a.rekening_kredit_transaksi
+                    INNER JOIN rekening b ON b.id_rekening = a.rekening_debet_transaksi
+                    WHERE b.no_rekening = '$no_rek' OR c.no_rekening = '$no_rek'
+                    ORDER BY tgl_transaksi
+                ) a
+                CROSS JOIN (select @mutasi := 0) params";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
+    function get_saldo_summary($no_rek){
+        $sql = "SELECT * 
+                FROM (
+                    SELECT a.*,
+                           (@debet := @debet + IF(b.no_rekening = '$no_rek', a.nominal_transaksi, 0)) AS TOTAL_DEBET,
+                           (@kredit := @kredit + IF(c.no_rekening = '$no_rek', a.nominal_transaksi, 0)) AS TOTAL_KREDIT
+                    FROM transaksi a
+                    CROSS JOIN (select @debet := 0, @kredit := 0) params
+                    INNER JOIN rekening b ON b.id_rekening = a.rekening_debet_transaksi
+                    INNER JOIN rekening c ON c.id_rekening = a.rekening_kredit_transaksi
+                    WHERE b.no_rekening = '$no_rek' OR c.no_rekening = '$no_rek'
+                ) a
+                ORDER BY a.id_transaksi DESC LIMIT 1";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
     function add_golongan($data){
         $input_data = array(
             'no_golongan' => $data['no_golongan'],

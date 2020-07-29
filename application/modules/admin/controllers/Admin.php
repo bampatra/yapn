@@ -44,6 +44,16 @@ class Admin extends MX_Controller
         $this->load->view('template/admin_footer');
     }
 
+    function bukubesar()
+    {
+        $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
+        $data['rekening_list'] = $data_rekening;
+
+        $this->load->view('template/admin_header');
+        $this->load->view('bukubesar', $data);
+        $this->load->view('template/admin_footer');
+    }
+
     function transaksi()
     {
         $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
@@ -89,6 +99,23 @@ class Admin extends MX_Controller
     function get_all_transaksi(){
         $data = $this->Admin_model->get_all_transaksi();
         echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_bukubesar(){
+        $no_rek = htmlentities(trim($_REQUEST['no_rek']), ENT_QUOTES);
+        $s_n = htmlentities(trim($_REQUEST['s_n']), ENT_QUOTES);
+
+        $data = $this->Admin_model->get_bukubesar($no_rek, $s_n);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_saldo_summary(){
+        $no_rek = htmlentities($_REQUEST['no_rek'], ENT_QUOTES);
+
+        $data = $this->Admin_model->get_saldo_summary($no_rek);
+        echo json_encode($data->row());
         return;
     }
 

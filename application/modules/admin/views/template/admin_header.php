@@ -164,6 +164,13 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('admin/bukubesar')?>">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>Buku Besar</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
