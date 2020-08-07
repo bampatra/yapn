@@ -15,8 +15,11 @@ class Admin extends MX_Controller
 
     function index()
     {
+        $data_year = $this->Admin_model->get_record_year()->result_object();
+        $data['years'] = $data_year;
+
         $this->load->view('template/admin_header');
-        $this->load->view('index');
+        $this->load->view('index', $data);
         $this->load->view('template/admin_footer');
     }
 
@@ -44,6 +47,13 @@ class Admin extends MX_Controller
         $this->load->view('template/admin_footer');
     }
 
+    function neraca()
+    {
+        $this->load->view('template/admin_header');
+        $this->load->view('neraca');
+        $this->load->view('template/admin_footer');
+    }
+
     function bukubesar()
     {
         $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
@@ -51,6 +61,27 @@ class Admin extends MX_Controller
 
         $this->load->view('template/admin_header');
         $this->load->view('bukubesar', $data);
+        $this->load->view('template/admin_footer');
+    }
+
+    function mutasi()
+    {
+        $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
+        $data_year = $this->Admin_model->get_record_year()->result_object();
+
+        $data['rekening_list'] = $data_rekening;
+        $data['years'] = $data_year;
+
+
+        $this->load->view('template/admin_header');
+        $this->load->view('mutasi', $data);
+        $this->load->view('template/admin_footer');
+    }
+
+    function saldo_golongan()
+    {
+        $this->load->view('template/admin_header');
+        $this->load->view('saldo_golongan');
         $this->load->view('template/admin_footer');
     }
 
@@ -107,6 +138,28 @@ class Admin extends MX_Controller
         $s_n = htmlentities(trim($_REQUEST['s_n']), ENT_QUOTES);
 
         $data = $this->Admin_model->get_bukubesar($no_rek, $s_n);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_mutasi(){
+        $no_rek = htmlentities(trim($_REQUEST['no_rek']), ENT_QUOTES);
+        $s_n = htmlentities(trim($_REQUEST['s_n']), ENT_QUOTES);
+        $year = htmlentities(trim($_REQUEST['year']), ENT_QUOTES);
+
+        $data = $this->Admin_model->get_mutasi($no_rek, $s_n, $year);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_neraca(){
+        $data = $this->Admin_model->get_neraca();
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_saldo_golongan(){
+        $data = $this->Admin_model->get_saldo_golongan((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun']);
         echo json_encode($data->result_object());
         return;
     }
@@ -237,16 +290,23 @@ class Admin extends MX_Controller
         $rekening_kredit_transaksi = htmlentities($_REQUEST['rekening_kredit_transaksi'], ENT_QUOTES);
         $nominal_transaksi = htmlentities($_REQUEST['nominal_transaksi'], ENT_QUOTES);
         $arus_kas_transaksi = htmlentities($_REQUEST['arus_kas_transaksi'], ENT_QUOTES);
-
-        if(isset($_REQUEST['without_date'])){
-            $without_date = true;
-        } else {
-            $without_date = false;
-        }
+        $date_radio = htmlentities(trim($_REQUEST['date_radio']), ENT_QUOTES);
 
         //validation
 
-        $data = compact('tgl_transaksi', 'keterangan_transaksi', 'rekening_debet_transaksi', 'rekening_kredit_transaksi', 'nominal_transaksi', 'arus_kas_transaksi');
+        if($date_radio == 'default'){
+            $month_transaksi = date("m",strtotime($tgl_transaksi));
+            $year_transaksi = date("y",strtotime($tgl_transaksi));
+        } else if($date_radio == 'saldo_awal'){
+            $month_transaksi = '0';
+            $year_transaksi = $tgl_transaksi;
+        } else if($date_radio == 'penyesuaian'){
+            $month_transaksi = '13';
+            $year_transaksi = $tgl_transaksi;
+        }
+
+        $data = compact('tgl_transaksi', 'keterangan_transaksi', 'rekening_debet_transaksi', 'rekening_kredit_transaksi',
+                            'nominal_transaksi', 'arus_kas_transaksi', 'month_transaksi', 'year_transaksi');
 
         if($id_transaksi == 0){
             if($this->Admin_model->add_transaksi($data)){
@@ -267,9 +327,8 @@ class Admin extends MX_Controller
     }
 
     function change_akhir_periode(){
-        date_default_timezone_set('Asia/Singapore');
 
-        $year = date('Y');
+        $year = htmlentities($_REQUEST['year'], ENT_QUOTES);
         $month = htmlentities($_REQUEST['month'], ENT_QUOTES);
         $date = "$year-$month-01";
         $new_date = date("t/m/Y", strtotime($date));
@@ -280,6 +339,7 @@ class Admin extends MX_Controller
 
         $_SESSION['akhir_periode'] = $new_date;
         $_SESSION['laporan_bulan'] = $month;
+        $_SESSION['laporan_tahun'] = $year;
         echo json_encode(array("Status" => "OK", "Date" => $new_date, "DateString" => $new_date_string));
     }
 

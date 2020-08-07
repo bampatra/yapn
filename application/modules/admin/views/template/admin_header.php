@@ -171,6 +171,26 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('admin/mutasi')?>">
+                <i class="fas fa-fw fa-calendar"></i>
+                <span>Mutasi</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('admin/saldo_golongan')?>">
+                <i class="fas fa-fw fa-bullseye"></i>
+                <span>Saldo per Golongan</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url('admin/neraca')?>">
+                <i class="fas fa-fw fa-balance-scale"></i>
+                <span>Neraca</span>
+            </a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

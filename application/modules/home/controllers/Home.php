@@ -45,6 +45,7 @@ class Home extends MX_Controller
                     'awal_periode' => '01/01/'.$tahun,
                     'akhir_periode' => $date,
                     'laporan_bulan' => $bulan,
+                    'laporan_tahun' => $tahun,
                     'default_kas' => '101',
                     'default_lembaga' => 'Yayasan Ari Prshanti Nilayam'
                 );

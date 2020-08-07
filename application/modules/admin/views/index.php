@@ -89,6 +89,22 @@
                                         ?>
                                     </select> </td>
                             </tr>
+                            <tr class="tr-form">
+                                <td class="td-main"> Laporan Tahun </td>
+                                <td class="td-secondary"> <select name="tahun" class="form-control tahun-dropdown">
+                                        <?php foreach ($years as $year) { ?>
+                                            <?php if($year->year == $_SESSION['laporan_tahun']) {?>
+                                                <option value="<?php echo $year->year; ?>" selected>
+                                                    <?php echo $year->year; ?>
+                                                </option>
+                                            <?php } else { ?>
+                                                <option value="<?php echo $year->year; ?>">
+                                                    <?php echo $year->year; ?>
+                                                </option>
+                                        <?php }} ?>
+                                        <option value="2021"> 2021 </option>
+                                    </select> </td>
+                            </tr>
                         </table>
                 </div>
               </div>
@@ -119,12 +135,12 @@
     Chart.defaults.global.defaultFontColor = '#858796';
 
 
-    $('.bulan-dropdown').change(function(){
+    $('.bulan-dropdown, .tahun-dropdown').change(function(){
         $.ajax({
             type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
             url: admin_url + 'change_akhir_periode', // the url where we want to POST// our data object
             dataType: 'json',
-            data: {month: $(this).val()},
+            data: {month: $('.bulan-dropdown').val(), year: $('.tahun-dropdown').val()},
             success: function (response) {
                 if(response.Status == "OK"){
                     $('.akhir-periode').html(response.Date);

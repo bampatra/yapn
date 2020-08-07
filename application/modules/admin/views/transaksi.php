@@ -87,11 +87,31 @@
                     </div>
                     <div class="form-group modal-button-save">
                         <div class="form-check">
+                            <input class="form-check-input date_radio" type="radio" name="date_radio" id="default" value="default" checked>
+                            <label class="form-check-label" for="default">
+                                Default
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input date_radio" type="radio" name="date_radio" id="saldo_awal" value="saldo_awal">
+                            <label class="form-check-label" for="saldo_awal">
+                                Saldo Awal
+                            </label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="form-check-input date_radio" type="radio" name="date_radio" id="penyesuaian" value="penyesuaian">
+                            <label class="form-check-label" for="penyesuaian">
+                                Penyesuaian
+                            </label>
+                        </div>
+
+
+                        <!--<div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="without_date" name="without_date">
                             <label class="form-check-label" for="without_date">
                                 Tanpa tanggal
                             </label>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">Keterangan Transaksi</label>
@@ -230,11 +250,18 @@
             success     : function(data){
                 length = data.length;
                 html = '';
+                date = '';
                 data.forEach(function(data, i){
+
+                    if(data.month_transaksi == '0' || data.month_transaksi == '13'){
+                        date = data.year_transaksi;
+                    } else {
+                        date = convertDate(data.tgl_transaksi);
+                    }
 
                     html += '<tr class="tr-hover">' +
                         '   <td style="display: none;">'+ data.id_transaksi +'</td>' +
-                        '   <td>'+ convertDate(data.tgl_transaksi) +'</td>' +
+                        '   <td>'+ date +'</td>' +
                         '   <td>'+ data.keterangan_transaksi +'</td>' +
                         '   <td>'+ data.nama_rekening_debet +'</td>' +
                         '   <td>'+ data.nama_rekening_kredit +'</td>' +
@@ -242,14 +269,15 @@
                         '   <td>'+ data.nama_arus_kas +'</td>' +
                         '    </tr>';
 
+
                 })
 
                 // $('.daterangepicker').remove();
                 $('#dataTable').DataTable().destroy();
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
-                    "order": [[ 1, "asc" ]],
-                    "scrollX": true
+                    "scrollX": true,
+                    "bSort": false
                 } );
                 // datatable_init(1, true);
 
@@ -270,6 +298,7 @@
         $('#rekening-form').trigger('reset');
         $('#id_transaksi').val(0);
         $('.form-active-control').prop('disabled', false);
+        $('#transaksi_input').html(' <input type="date" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">');
         $('#rekening-modal').modal('toggle');
     })
 
@@ -291,10 +320,18 @@
 
                 console.log(data);
 
-                if(data.custom_tgl_transaksi.match(/-00-00$/)){
-                    $('#transaksi_input').html(' <input type="text" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control" value="00/00/'+ n +'" readonly>')
+                // if(data.custom_tgl_transaksi.match(/-00-00$/)){
+                if(data.month_transaksi == '0' || data.month_transaksi == '13'){
+                    $('#transaksi_input').html('<select id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">'+ year_dropdown(data.year_transaksi) +'</select>');
+
+                    if(data.month_transaksi == '0'){
+                        $('#saldo_awal').prop('checked', true);
+                    } else {
+                        $('#penyesuaian').prop('checked', true);
+                    }
                 } else {
                     $('#transaksi_input').html(' <input type="date" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control" value="'+ data.custom_tgl_transaksi +'">')
+                    $('#penyesuaian').prop('default', true);
                 }
 
 
@@ -343,20 +380,46 @@
         })
     })
 
-    $('#without_date').change(function()
-    {
-        var d = new Date();
-        var n = d.getFullYear();
+    // $('#without_date').change(function()
+    // {
+    //     var d = new Date();
+    //     var n = d.getFullYear();
+    //
+    //     if ($(this).is(':checked')) {
+    //         $('#transaksi_input').html(' <input type="text" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control" value="00/00/'+ n +'" readonly>')
+    //
+    //     } else {
+    //         $('#transaksi_input').html(' <input type="date" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">')
+    //     }
+    // });
 
-        if ($(this).is(':checked')) {
-            $('#transaksi_input').html(' <input type="text" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control" value="00/00/'+ n +'" readonly>')
-
+    $('.date_radio').click(function(){
+        if($(this).val() != 'default'){
+            $('#transaksi_input').html('<select id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">'+ year_dropdown() +'</select>');
         } else {
             $('#transaksi_input').html(' <input type="date" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">')
         }
-    });
+    })
 
-    $('.tahun')
+    function year_dropdown(selected_year = 0){
+        var start = 2000;
+        var end = new Date().getFullYear() + 1;
+        var options = "";
+        for(var year = end ; year >= start; year--){
+            if(selected_year != 0){
+                if(selected_year == year){
+                    options += "<option selected value='"+ year +"'>"+ year +"</option>";
+                } else {
+                    options += "<option value='"+ year +"'>"+ year +"</option>";
+                }
+            } else {
+                options += "<option value='"+ year +"'>"+ year +"</option>";
+            }
+
+        }
+
+        return options;
+    }
 
 
 </script>

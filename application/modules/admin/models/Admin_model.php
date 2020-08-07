@@ -30,7 +30,8 @@ class Admin_model extends CI_Model
                 FROM transaksi a
                 INNER JOIN rekening b ON a.rekening_debet_transaksi = b.id_rekening
                 INNER JOIN rekening c ON a.rekening_kredit_transaksi = c.id_rekening
-                INNER JOIN arus_kas d ON a.arus_kas_transaksi = d.id_arus_kas";
+                INNER JOIN arus_kas d ON a.arus_kas_transaksi = d.id_arus_kas
+                ORDER BY a.year_transaksi, a.month_transaksi, a.tgl_transaksi";
 
         $query = $this->db->query($sql);
         return $query;
@@ -40,6 +41,71 @@ class Admin_model extends CI_Model
         $sql = "SELECT SUM(nominal_transaksi) AS subtotal
                 FROM transaksi
                 WHERE (tgl_transaksi BETWEEN '$start_date' AND '$end_date')";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
+    function get_saldo_golongan($month, $year){
+        $sql = "SELECT a.no_golongan, a.nama_golongan, a.neraca, a.s_n_golongan, 
+                    IFNULL(monthly_debet.TOTAL_DEBET,0) AS MONTHLY_DEBET, 
+                    IFNULL(monthly_kredit.TOTAL_KREDIT,0) AS MONTHLY_KREDIT, 
+                    IF(a.s_n_golongan = 'Debet', IFNULL(monthly_debet.TOTAL_DEBET,0) - IFNULL(monthly_kredit.TOTAL_KREDIT, 0), IFNULL(monthly_kredit.TOTAL_KREDIT, 0) -  IFNULL(monthly_debet.TOTAL_DEBET,0)) AS MONTHLY_TOTAL,
+                    
+                    IFNULL(debet.TOTAL_DEBET,0) AS TOTAL_DEBET, 
+                    IFNULL(kredit.TOTAL_KREDIT, 0) AS TOTAL_KREDIT,
+                    IF(a.s_n_golongan = 'Debet', IFNULL(debet.TOTAL_DEBET,0) - IFNULL(kredit.TOTAL_KREDIT, 0), IFNULL(kredit.TOTAL_KREDIT, 0) -  IFNULL(debet.TOTAL_DEBET,0)) AS TOTAL,
+       
+                    a.harta_aset_bersih
+                FROM golongan a
+                LEFT JOIN
+                (
+                    SELECT SUM(a.nominal_transaksi) as TOTAL_DEBET, b.id_golongan AS GOLONGAN_DEBET
+                    FROM transaksi a
+                    INNER JOIN (
+                        SELECT a.*, b.no_golongan, b.nama_golongan 
+                        FROM rekening a
+                        INNER JOIN golongan b ON a.id_golongan = b.id_golongan
+                    ) b ON a.rekening_debet_transaksi = b.id_rekening
+                    WHERE a.month_transaksi <= '$month' AND a.year_transaksi = '$year'
+                    GROUP BY b.id_golongan
+                ) monthly_debet ON a.id_golongan = monthly_debet.GOLONGAN_DEBET
+                LEFT JOIN (
+                    SELECT SUM(a.nominal_transaksi) as TOTAL_KREDIT, c.id_golongan AS GOLONGAN_KREDIT
+                    FROM transaksi a
+                    INNER JOIN (
+                        SELECT a.*, b.no_golongan, b.nama_golongan 
+                        FROM rekening a
+                        INNER JOIN golongan b ON a.id_golongan = b.id_golongan
+                    ) c ON a.rekening_kredit_transaksi = c.id_rekening
+                    WHERE a.month_transaksi <= '$month' AND a.year_transaksi = '$year'
+                    GROUP BY c.id_golongan
+                ) monthly_kredit on a.id_golongan = monthly_kredit.GOLONGAN_KREDIT
+                
+                
+                LEFT JOIN
+                (
+                    SELECT SUM(a.nominal_transaksi) as TOTAL_DEBET, b.id_golongan AS GOLONGAN_DEBET
+                    FROM transaksi a
+                    INNER JOIN (
+                        SELECT a.*, b.no_golongan, b.nama_golongan 
+                        FROM rekening a
+                        INNER JOIN golongan b ON a.id_golongan = b.id_golongan
+                    ) b ON a.rekening_debet_transaksi = b.id_rekening
+                    GROUP BY b.id_golongan
+                ) debet ON a.id_golongan = debet.GOLONGAN_DEBET
+                LEFT JOIN (
+                    SELECT SUM(a.nominal_transaksi) as TOTAL_KREDIT, c.id_golongan AS GOLONGAN_KREDIT
+                    FROM transaksi a
+                    INNER JOIN (
+                        SELECT a.*, b.no_golongan, b.nama_golongan 
+                        FROM rekening a
+                        INNER JOIN golongan b ON a.id_golongan = b.id_golongan
+                    ) c ON a.rekening_kredit_transaksi = c.id_rekening
+                    GROUP BY c.id_golongan
+                ) kredit on a.id_golongan = kredit.GOLONGAN_KREDIT
+                ORDER BY no_golongan
+                ";
 
         $query = $this->db->query($sql);
         return $query;
@@ -97,12 +163,12 @@ class Admin_model extends CI_Model
         $sql = "SELECT a.*, IF('$s_n' = 'Debet', (@mutasi := @mutasi + IF(a.DEBET <> 0, a.DEBET, (-1 * a.KREDIT))), (@mutasi := @mutasi + IF(a.KREDIT <> 0, a.KREDIT, (-1 * a.DEBET)))) AS MUTASI
                 FROM
                 (
-                    SELECT a.tgl_transaksi, a.keterangan_transaksi, IF(b.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS DEBET,  IF(c.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS KREDIT
+                    SELECT a.tgl_transaksi, a.month_transaksi, a.year_transaksi, a.keterangan_transaksi, IF(b.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS DEBET,  IF(c.no_rekening = '$no_rek', a.nominal_transaksi, 0) AS KREDIT
                     FROM transaksi a
                     INNER JOIN rekening c ON c.id_rekening = a.rekening_kredit_transaksi
                     INNER JOIN rekening b ON b.id_rekening = a.rekening_debet_transaksi
                     WHERE b.no_rekening = '$no_rek' OR c.no_rekening = '$no_rek'
-                    ORDER BY tgl_transaksi
+                    ORDER BY a.year_transaksi, a.month_transaksi, a.tgl_transaksi
                 ) a
                 CROSS JOIN (select @mutasi := 0) params";
 
@@ -122,7 +188,35 @@ class Admin_model extends CI_Model
                     INNER JOIN rekening c ON c.id_rekening = a.rekening_kredit_transaksi
                     WHERE b.no_rekening = '$no_rek' OR c.no_rekening = '$no_rek'
                 ) a
-                ORDER BY a.id_transaksi DESC LIMIT 1";
+                ORDER BY a.year_transaksi DESC, a.month_transaksi DESC, a.tgl_transaksi DESC LIMIT 1";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
+    function get_mutasi($no_rek, $s_n, $year){
+        $sql = "SELECT a.*, IF(a.mutasi <> 0,(@saldo := @saldo + a.MUTASI), 0) AS SALDO
+                FROM (
+                SELECT m. months, IFNULL(SUM(debet.TOTAL_DEBET),0) AS DEBET, IFNULL(SUM(kredit.TOTAL_KREDIT), 0) AS KREDIT,
+                    IF('$s_n' = 'Debet', IFNULL(SUM(debet.TOTAL_DEBET),0) - IFNULL(SUM(kredit.TOTAL_KREDIT), 0), IFNULL(SUM(kredit.TOTAL_KREDIT), 0) -  IFNULL(SUM(debet.TOTAL_DEBET),0)) AS MUTASI
+                FROM months m
+                LEFT JOIN (
+                    SELECT a.month_transaksi as MONTH_DEBET, SUM(a.nominal_transaksi) as TOTAL_DEBET 
+                    FROM transaksi a
+                    INNER JOIN rekening b ON b.id_rekening = a.rekening_debet_transaksi
+                    WHERE b.no_rekening = '$no_rek' AND a.year_transaksi = '$year'
+                    GROUP BY a.month_transaksi
+                ) debet ON debet.MONTH_DEBET = m.idmonths
+                LEFT JOIN (
+                    SELECT a.month_transaksi as MONTH_KREDIT, SUM(a.nominal_transaksi) as TOTAL_KREDIT
+                    FROM transaksi a
+                    INNER JOIN rekening b ON b.id_rekening = a.rekening_kredit_transaksi
+                    WHERE b.no_rekening = '$no_rek' AND a.year_transaksi = '$year'
+                    GROUP BY a.month_transaksi
+                ) kredit on kredit.MONTH_KREDIT = m.idmonths
+                GROUP BY m.idmonths
+            ) a
+            CROSS JOIN (select @saldo := 0) params";
 
         $query = $this->db->query($sql);
         return $query;
@@ -170,7 +264,9 @@ class Admin_model extends CI_Model
             'rekening_debet_transaksi' => $data['rekening_debet_transaksi'],
             'rekening_kredit_transaksi' => $data['rekening_kredit_transaksi'],
             'nominal_transaksi' => $data['nominal_transaksi'],
-            'arus_kas_transaksi' => $data['arus_kas_transaksi']
+            'arus_kas_transaksi' => $data['arus_kas_transaksi'],
+            'month_transaksi' => $data['month_transaksi'],
+            'year_transaksi' => $data['year_transaksi']
         );
 
         $this->db->insert('transaksi',$input_data);
@@ -199,9 +295,10 @@ class Admin_model extends CI_Model
     }
 
     function get_record_year(){
-        $sql = "SELECT YEAR(tgl_transaksi)
+        $sql = "SELECT year_transaksi AS year
                 FROM transaksi
-                GROUP BY YEAR(tgl_transaksi)";
+                GROUP BY year_transaksi
+                ORDER BY year_transaksi DESC";
 
         $query = $this->db->query($sql);
         return $query;

@@ -164,7 +164,6 @@
 
 
     function get_bukubesar(no_rekening, s_n){
-        console.log(s_n)
         $.ajax({
             type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
             url         : admin_url + 'get_bukubesar', // the url where we want to POST// our data object
@@ -175,8 +174,14 @@
                 html = '';
                 data.forEach(function(data, i){
 
+                    if(data.month_transaksi == '0' || data.month_transaksi == '13'){
+                        date = data.year_transaksi;
+                    } else {
+                        date = convertDate(data.tgl_transaksi);
+                    }
+
                     html += '<tr class="tr-hover">' +
-                        '   <td>'+ convertDate(data.tgl_transaksi) +'</td>' +
+                        '   <td>'+ date +'</td>' +
                         '   <td>'+ data.keterangan_transaksi +'</td>' +
                         '   <td>'+ convertToRupiah(data.DEBET) +'</td>' +
                         '   <td>'+ convertToRupiah(data.KREDIT) +'</td>' +
@@ -189,7 +194,8 @@
                 $('#dataTable').DataTable().destroy();
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
-                    "order": [[ 0, "asc" ]]
+                    "bSort": false,
+                    "scrollX": true
                 } );
                 // datatable_init(1, true);
 
@@ -225,15 +231,23 @@
             dataType: 'json',
             data: {no_rek: no_rekening},
             success: function (data) {
-                console.log(data);
-                $('.debit').html(convertToRupiah(data.TOTAL_DEBET));
-                $('.kredit').html(convertToRupiah(data.TOTAL_KREDIT));
 
-                if(s_n == 'Debet'){
-                    $('.saldo').html(convertToRupiah(data.TOTAL_DEBET - data.TOTAL_KREDIT));
+                if(data != null && data != undefined){
+                    $('.debit').html(convertToRupiah(data.TOTAL_DEBET));
+                    $('.kredit').html(convertToRupiah(data.TOTAL_KREDIT));
+
+                    if(s_n == 'Debet'){
+                        $('.saldo').html(convertToRupiah(data.TOTAL_DEBET - data.TOTAL_KREDIT));
+                    } else {
+                        $('.saldo').html(convertToRupiah(data.TOTAL_KREDIT - data.TOTAL_DEBET));
+                    }
                 } else {
-                    $('.saldo').html(convertToRupiah(data.TOTAL_KREDIT - data.TOTAL_DEBET));
+                    $('.debit').html(convertToRupiah(0));
+                    $('.kredit').html(convertToRupiah(0));
+                    $('.saldo').html(convertToRupiah(0));
+
                 }
+
 
             }
         })
