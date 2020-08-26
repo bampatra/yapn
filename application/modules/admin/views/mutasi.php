@@ -14,42 +14,45 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rekening</h6>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td> Tahun </td>
-                                <td>
-                                    <select id="tahun_mutasi" name="tahun_mutasi" class="form-control form-active-control" style="padding: 0.3rem; font-size: inherit;">
-                                        <?php foreach ($years as $year) { ?>
-                                            <option value="<?php echo $year->year; ?>">
-                                                <?php echo $year->year; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Rekening </td>
-                                <td>
-                                    <select id="rekening_mutasi" name="rekening_mutasi" class="form-control form-active-control" style="padding: 0.3rem; font-size: inherit;">
-                                        <?php foreach ($rekening_list as $rekening) { ?>
-                                            <option value="<?php echo $rekening->id_rekening; ?>">
-                                                <?php echo $rekening->nama_rekening; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> No. Rek. </td>
-                                <td class="no_rek">Loading...</td>
-                            </tr>
-                            <tr>
-                                <td> S/N </td>
-                                <td class="s_n">Loading...</td>
-                            </tr>
 
-                        </table>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Tahun</label>
+                        <div class="col-sm-9">
+                            <select id="tahun_mutasi" name="tahun_mutasi" class="form-control form-active-control selectpicker" data-container="body" style="padding: 0.3rem; font-size: inherit;">
+                                <?php foreach ($years as $year) { ?>
+                                    <option value="<?php echo $year->year; ?>">
+                                        <?php echo $year->year; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Rekening</label>
+                        <div class="col-sm-9">
+                            <select id="rekening_mutasi" name="rekening_mutasi" class="form-control form-active-control selectpicker" data-live-search="true" data-container="body" style="padding: 0.3rem; font-size: inherit;">
+                                <?php foreach ($rekening_list as $rekening) { ?>
+                                    <option data-tokens="<?php echo $rekening->no_rekening; ?>" value="<?php echo $rekening->id_rekening; ?>">
+                                        <?php echo $rekening->nama_rekening; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">No. Rek.</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control no_rek" value="Loading...">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">S/N</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control s_n" value="Loading...">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,63 +104,6 @@
 
 </div>
 <!-- End of Main Content -->
-
-<style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-
-    .tr-hover td, .tr-hover th{
-        padding: 0.4rem !important;
-    }
-
-    td{
-        color: #333333;
-    }
-
-</style>
 
 <!-- Page level custom scripts -->
 
@@ -252,8 +198,8 @@
             dataType: 'json',
             data: {id_rekening: $('#rekening_mutasi').val()},
             success: function (data) {
-                $('.no_rek').html(data.no_rekening);
-                $('.s_n').html(data.s_n_golongan);
+                $('.no_rek').val(data.no_rekening);
+                $('.s_n').val(data.s_n_golongan);
 
                 no_rekening = data.no_rekening;
                 s_n_golongan = data.s_n_golongan;
@@ -265,8 +211,8 @@
 
 
     $('#rekening_mutasi').change(function(){
-        $('.no_rek').html('Loading...');
-        $('.s_n').html('Loading...');
+        $('.no_rek').val('Loading...');
+        $('.s_n').val('Loading...');
         get_rekening_detail();
     })
 

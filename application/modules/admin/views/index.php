@@ -22,112 +22,108 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                        <table class="desktop-and-tablet-inlinetable">
-                            <tr class="tr-form">
-                                <td class="td-main"> Lembaga </td>
-                                <td class="td-secondary">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Lembaga</label>
+                        <div class="col-sm-10">
+                            <select name="default_lembaga" class="form-control lembaga-dropdown" style="width: auto">
+                                <?php
+                                if($_SESSION['default_lembaga'] == 'Yayasan Ari Prshanti Nilayam'){
+                                    echo("<option value='Yayasan Ari Prshanti Nilayam' selected>Yayasan Ari Prshanti Nilayam</option>
+                                                  <option value='SMK Prshanti Nilayam'>SMK Prshanti Nilayam</option>"."\n");
+                                } else {
+                                    echo("<option value='Yayasan Ari Prshanti Nilayam'>Yayasan Ari Prshanti Nilayam</option>
+                                                  <option value='SMK Prshanti Nilayam' selected>SMK Prshanti Nilayam</option>"."\n");
+                                }
 
-                                    <select name="default_lembaga" class="form-control lembaga-dropdown">
-                                        <?php
-                                            if($_SESSION['default_lembaga'] == 'Yayasan Ari Prshanti Nilayam'){
-                                                echo("<option value='Yayasan Ari Prshanti Nilayam' selected>Yayasan Ari Prshanti Nilayam</option>
-                                                      <option value='SMK Prshanti Nilayam'>SMK Prshanti Nilayam</option>"."\n");
-                                            } else {
-                                                echo("<option value='Yayasan Ari Prshanti Nilayam'>Yayasan Ari Prshanti Nilayam</option>
-                                                      <option value='SMK Prshanti Nilayam' selected>SMK Prshanti Nilayam</option>"."\n");
-                                            }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
 
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr class="tr-form">
-                                <td class="td-main"> Awal Periode </td>
-<!--                                <td> <input class="form-control" type="date" value="--><?php //echo $_SESSION['awal_periode']?><!--"> </td>-->
-                                <td class="td-secondary"> <?php echo $_SESSION['awal_periode']?> </td>
-                            </tr>
-                            <tr class="tr-form">
-                                <td class="td-main"> Akhir Periode </td>
-<!--                                <td> <input class="form-control" type="te" value="--><?php //echo $_SESSION['akhir_periode']?><!--"> </td>-->
-                                <td class="td-secondary akhir-periode"> <?php echo $_SESSION['akhir_periode']?> </td>
-                            </tr>
-                            <tr class="tr-form">
-                                <td class="td-main"> Periode </td>
-                                <td class="td-secondary" class="periode-summary">
-                                    <?php
-                                    $var = $_SESSION['awal_periode'];
-                                    $date = str_replace('/', '-', $var);
-                                    echo date("d-M-Y", strtotime($date) );
-                                    ?>
-                                    sampai dengan <span class="akhir-periode-string">
-                                         <?php
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Awal Periode</label>
+                        <div class="col-sm-10">
+                            <?php echo $_SESSION['awal_periode']?>
+                        </div>
+                    </div>
 
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Akhir Periode</label>
+                        <div class="col-sm-10">
+                            <?php echo $_SESSION['akhir_periode']?>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Periode</label>
+                        <div class="col-sm-10">
+                            <?php
+                            $var = $_SESSION['awal_periode'];
+                            $date = str_replace('/', '-', $var);
+                            echo date("d-M-Y", strtotime($date) );
+                            ?>
+                            sampai dengan <span class="akhir-periode-string">
+                                     <?php
+
+                                     if($_SESSION['laporan_bulan'] != '13'){
                                          $var = $_SESSION['akhir_periode'];
                                          $date = str_replace('/', '-', $var);
                                          echo date("d-M-Y", strtotime($date) );
+                                     } else {
+                                         echo "31-Jan-".((int)$_SESSION['laporan_tahun'] + 1);
+                                     }
 
-                                         ?>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr class="tr-form">
-                                <td class="td-main"> Laporan Bulan </td>
-                                <td class="td-secondary"> <select name="bulan" class="form-control bulan-dropdown">
-                                        <?php
-                                        $bulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-                                        for($a=1;$a<=12;$a++){
-                                            if($a == $_SESSION['laporan_bulan'])
-                                            {
-                                                $pilih="selected";
-                                            }
-                                            else
-                                            {
-                                                $pilih="";
-                                            }
-                                            echo("<option value=\"$a\" $pilih>$bulan[$a]</option>"."\n");
-                                        }
-                                        ?>
-                                    </select> </td>
-                            </tr>
-                            <tr class="tr-form">
-                                <td class="td-main"> Laporan Tahun </td>
-                                <td class="td-secondary"> <select name="tahun" class="form-control tahun-dropdown">
-                                        <?php foreach ($years as $year) { ?>
-                                            <?php if($year->year == $_SESSION['laporan_tahun']) {?>
-                                                <option value="<?php echo $year->year; ?>" selected>
-                                                    <?php echo $year->year; ?>
-                                                </option>
-                                            <?php } else { ?>
-                                                <option value="<?php echo $year->year; ?>">
-                                                    <?php echo $year->year; ?>
-                                                </option>
-                                        <?php }} ?>
-                                        <option value="2021"> 2021 </option>
-                                    </select> </td>
-                            </tr>
-                        </table>
+                                     ?>
+                                </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Laporan Bulan</label>
+                        <div class="col-sm-10">
+                            <select name="bulan" class="form-control bulan-dropdown" style="width: auto">
+                                <?php
+                                $bulan = array("Saldo Awal", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember", "Penyesuaian");
+                                for($a=0;$a<=13;$a++){
+                                    if($a == $_SESSION['laporan_bulan'])
+                                    {
+                                        $pilih="selected";
+                                    }
+                                    else
+                                    {
+                                        $pilih="";
+                                    }
+                                    echo("<option value=\"$a\" $pilih>$bulan[$a]</option>"."\n");
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Laporan Tahun</label>
+                        <div class="col-sm-10">
+                            <select name="tahun" class="form-control tahun-dropdown" style="width: auto">
+                                <?php foreach ($years as $year) { ?>
+                                    <?php if($year->year == $_SESSION['laporan_tahun']) {?>
+                                        <option value="<?php echo $year->year; ?>" selected>
+                                            <?php echo $year->year; ?>
+                                        </option>
+                                    <?php } else { ?>
+                                        <option value="<?php echo $year->year; ?>">
+                                            <?php echo $year->year; ?>
+                                        </option>
+                                    <?php }} ?>
+                                <option value="2021"> 2021 </option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>
-                <?php print_r($_SESSION) ?>
           </div>
 
 
-<style>
-    .tr-form{
-        height: 45px;
-        font-size: 16px;
-    }
-
-    .td-main{
-        width: 30%;
-    }
-
-    .td-secondary{
-        width: 50%;
-    }
-
-</style>
 <script>
 
     // Set new default font family and font color to mimic Bootstrap's default styling

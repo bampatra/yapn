@@ -54,6 +54,20 @@ class Admin extends MX_Controller
         $this->load->view('template/admin_footer');
     }
 
+    function neraca_saldo()
+    {
+        $this->load->view('template/admin_header');
+        $this->load->view('neraca_saldo');
+        $this->load->view('template/admin_footer');
+    }
+
+    function nsaldo_mtm()
+    {
+        $this->load->view('template/admin_header');
+        $this->load->view('nsaldo_mtm');
+        $this->load->view('template/admin_footer');
+    }
+
     function bukubesar()
     {
         $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
@@ -85,6 +99,21 @@ class Admin extends MX_Controller
         $this->load->view('template/admin_footer');
     }
 
+    function labarugi()
+    {
+        $this->load->view('template/admin_header');
+        $this->load->view('labarugi');
+        $this->load->view('template/admin_footer');
+    }
+
+    function laporan_aruskas()
+    {
+
+        $this->load->view('template/admin_header');
+        $this->load->view('laporan_aruskas');
+        $this->load->view('template/admin_footer');
+    }
+
     function transaksi()
     {
         $data_rekening = $this->Admin_model->get_all_rekening()->result_object();
@@ -109,6 +138,28 @@ class Admin extends MX_Controller
         $this->load->view('template/admin_footer');
     }
 
+    function delete_transaksi(){
+        $id = htmlentities($_REQUEST['id_transaksi'], ENT_QUOTES);
+        if($this->Admin_model->delete_transaksi($id)){
+            $return_arr = array("Status" => 'OK', "Message" => '');
+        } else {
+            $return_arr = array("Status" => 'ERROR', "Message" => 'Gagal Mengahapus Data');
+        }
+
+        echo json_encode($return_arr);
+    }
+
+    function delete_rekening(){
+        $id = htmlentities($_REQUEST['id_rekening'], ENT_QUOTES);
+        if($this->Admin_model->delete_rekening($id)){
+            $return_arr = array("Status" => 'OK', "Message" => '');
+        } else {
+            $return_arr = array("Status" => 'ERROR', "Message" => 'Gagal Mengahapus Data');
+        }
+
+        echo json_encode($return_arr);
+    }
+
     function get_all_golongan(){
         $data = $this->Admin_model->get_all_golongan();
         echo json_encode($data->result_object());
@@ -129,6 +180,12 @@ class Admin extends MX_Controller
 
     function get_all_transaksi(){
         $data = $this->Admin_model->get_all_transaksi();
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_nsaldo_mtm(){
+        $data = $this->Admin_model->get_nsaldo_mtm(2020);
         echo json_encode($data->result_object());
         return;
     }
@@ -160,6 +217,39 @@ class Admin extends MX_Controller
 
     function get_saldo_golongan(){
         $data = $this->Admin_model->get_saldo_golongan((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun']);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_saldo_rekening(){
+        $filter = "WHERE b.no_golongan = '40' OR b.no_golongan = '50'";
+        $data = $this->Admin_model->get_saldo_rekening((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun'], $filter);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_laba_rugi(){
+        $filter = "WHERE b.no_golongan = '40' OR b.no_golongan = '50'";
+        $data = $this->Admin_model->get_laba_rugi((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun'], $filter);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_laporan_arus_kas(){
+        $data = $this->Admin_model->get_laporan_arus_kas((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun']);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_kas_bank(){
+        $filter = "WHERE b.no_golongan = '10'";
+        $data = $this->Admin_model->get_laba_rugi((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun'], $filter);
+        echo json_encode($data->result_object());
+        return;
+    }
+
+    function get_neraca_saldo(){
+        $data = $this->Admin_model->get_laba_rugi((int) $_SESSION['laporan_bulan'], (int) $_SESSION['laporan_tahun']);
         echo json_encode($data->result_object());
         return;
     }
@@ -231,9 +321,36 @@ class Admin extends MX_Controller
 
     function add_rekening(){
         $no_rekening = strtoupper(trim(htmlentities($_REQUEST['no_rekening'], ENT_QUOTES)));
-        $nama_rekening= htmlentities($_REQUEST['nama_rekening'], ENT_QUOTES);
+        $nama_rekening= htmlentities(trim($_REQUEST['nama_rekening']), ENT_QUOTES);
         $id_golongan = htmlentities($_REQUEST['id_golongan'], ENT_QUOTES);
         $id_rekening = htmlentities($_REQUEST['id_rekening'], ENT_QUOTES);
+
+        //validation
+        $error = array();
+
+        if(empty($no_rekening)){
+            array_push($error, "invalid-norek");
+        }
+
+        if(empty($nama_rekening)){
+            array_push($error, "invalid-namarekening");
+        }
+
+        if($id_golongan == "0"){
+            array_push($error, "invalid-golongan");
+        }
+
+        if(!empty($error)){
+            $return_arr = array("Status" => 'ERROR', "Error" => $error);
+            echo json_encode($return_arr);
+            return;
+        }
+
+        if($this->Admin_model->rekening_check($no_rekening, $nama_rekening)->num_rows() > 0){
+            $return_arr = array("Status" => 'EXIST');
+            echo json_encode($return_arr);
+            return;
+        }
 
         $data = compact('no_rekening', 'nama_rekening', 'id_golongan');
 
@@ -292,17 +409,51 @@ class Admin extends MX_Controller
         $arus_kas_transaksi = htmlentities($_REQUEST['arus_kas_transaksi'], ENT_QUOTES);
         $date_radio = htmlentities(trim($_REQUEST['date_radio']), ENT_QUOTES);
 
+        $error = array();
+
+
         //validation
 
         if($date_radio == 'default'){
-            $month_transaksi = date("m",strtotime($tgl_transaksi));
-            $year_transaksi = date("y",strtotime($tgl_transaksi));
+
+            if(empty($tgl_transaksi)){
+                array_push($error, "invalid-tanggal");
+            }
+
+            $month_transaksi = date("n",strtotime($tgl_transaksi));
+            $year_transaksi = date("Y",strtotime($tgl_transaksi));
         } else if($date_radio == 'saldo_awal'){
             $month_transaksi = '0';
             $year_transaksi = $tgl_transaksi;
         } else if($date_radio == 'penyesuaian'){
             $month_transaksi = '13';
             $year_transaksi = $tgl_transaksi;
+        }
+
+        if(empty($keterangan_transaksi)){
+            array_push($error, "invalid-keterangan");
+        }
+
+        if($rekening_debet_transaksi == "none"){
+            array_push($error, "invalid-debet");
+        }
+
+        if($rekening_kredit_transaksi == "none"){
+            array_push($error, "invalid-kredit");
+        }
+
+        if(empty($nominal_transaksi) || ((int)$nominal_transaksi == 0)){
+            array_push($error, "invalid-nominal");
+        }
+
+        if($arus_kas_transaksi == "none"){
+            array_push($error, "invalid-aruskas");
+        }
+
+        if(!empty($error)){
+            $return_arr = array("Status" => 'ERROR', "Error" => $error);
+            echo json_encode($return_arr);
+            return;
         }
 
         $data = compact('tgl_transaksi', 'keterangan_transaksi', 'rekening_debet_transaksi', 'rekening_kredit_transaksi',

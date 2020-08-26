@@ -14,32 +14,28 @@
                     <h6 class="m-0 font-weight-bold text-primary">Buku Besar</h6>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table style="width: 100%;">
-                            <tr>
-                                <td> Buku Besar </td>
-                                <td>
-                                    <select id="rekening_bukubesar" name="rekening_bukubesar" class="form-control form-active-control" style="padding: 0.3rem; font-size: inherit;">
-                                        <?php foreach ($rekening_list as $rekening) { ?>
-                                            <option value="<?php echo $rekening->id_rekening; ?>">
-                                                <?php echo $rekening->nama_rekening; ?>
-                                            </option>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-4 col-form-label">Buku Besar</label>
+                        <div class="col-sm-10">
+                        <select id="rekening_bukubesar" name="rekening_bukubesar" class="form-control form-active-control selectpicker" data-live-search="true" data-container="body">
+                                <?php foreach ($rekening_list as $rekening) { ?>
+                                    <option data-tokens="<?php echo $rekening->no_rekening; ?>" value="<?php echo $rekening->id_rekening; ?>">
+                                        <?php echo $rekening->nama_rekening; ?>
+                                    </option>
 
 
-                                        <?php } ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> No. Rek. </td>
-                                <td class="no_rek">Loading...</td>
-                            </tr>
-                            <tr>
-                                <td> S/N </td>
-                                <td class="s_n">Loading...</td>
-                            </tr>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
 
-                        </table>
+                    <div class="row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">No. Rek.</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label no_rek">Loading...</label>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">S/N</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label s_n">Loading...</label>
                     </div>
                 </div>
             </div>
@@ -102,54 +98,6 @@
 </div>
 <!-- End of Main Content -->
 
-<style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-</style>
-
 <!-- Page level custom scripts -->
 
 <!-- <script src="<?php echo base_url('assets/js/startbootstrap/demo/datatables-demo.js');?>"></script>-->
@@ -195,7 +143,8 @@
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
                     "bSort": false,
-                    "scrollX": true
+                    "scrollX": true,
+                    pagingType: "simple",
                 } );
                 // datatable_init(1, true);
 

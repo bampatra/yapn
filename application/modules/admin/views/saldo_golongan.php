@@ -22,7 +22,12 @@
                         <th>Neraca</th>
                         <th> Debet </th>
                         <th> Kredit </th>
-                        <th> [BULAN] </th>
+                        <th>
+                            <?php
+                            $monthName = date("F", mktime(0, 0, 0, $_SESSION['laporan_bulan'], 10));
+                            echo strtoupper($monthName);
+                            ?>
+                        </th>
                         <th> Debet </th>
                         <th> Kredit </th>
                         <th> Total </th>
@@ -36,89 +41,33 @@
         </div>
     </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Harta / Aset Bersih</h6>
-        </div>
-        <div class="card-body">
-            <div>
-                <table class="table table-bordered display nowrap" id="secondaryDataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th style="width: 10%"></th>
-                            <th style="width: 30%">Harta / Aset Bersih</th>
-                            <th> [BULAN] </th>
-                            <th> Total </th>
-                        </tr>
-                    </thead>
-                    <tbody id="secondary-content">
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+<!--    <div class="card shadow mb-4">-->
+<!--        <div class="card-header py-3">-->
+<!--            <h6 class="m-0 font-weight-bold text-primary">Harta / Aset Bersih</h6>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--            <div>-->
+<!--                <table class="table table-bordered display nowrap" id="secondaryDataTable" width="100%" cellspacing="0">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="width: 10%"></th>-->
+<!--                            <th style="width: 30%">Harta / Aset Bersih</th>-->
+<!--                            <th> [BULAN] </th>-->
+<!--                            <th> Total </th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody id="secondary-content">-->
+<!---->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 <!-- /.container-fluid -->
 
 </div>
 <!-- End of Main Content -->
-
-<style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-
-    .tr-hover td, .tr-hover th{
-        padding: 0.4rem !important;
-    }
-
-    td{
-        color: #333333;
-    }
-</style>
 
 <!-- Page level custom scripts -->
 

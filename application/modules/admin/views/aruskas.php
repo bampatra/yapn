@@ -74,54 +74,6 @@
 </div>
 
 
-<style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-</style>
-
 <!-- Page level custom scripts -->
 
 <!-- <script src="<?php echo base_url('assets/js/startbootstrap/demo/datatables-demo.js');?>"></script>-->

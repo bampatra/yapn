@@ -12,7 +12,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Laba (Rugi)</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="overflow-x: auto">
             <div>
                 <table class="table table-bordered display nowrap" width="100%" cellspacing="0" id="labarugi_table">
                     <tr style="visibility: hidden;">
@@ -26,8 +26,8 @@
                         <th colspan="2" class="left_side"> PERIODE </th>
                         <th colspan="3" class="middle_side">
                             <?php
-                                $monthName = date("F", mktime(0, 0, 0, $_SESSION['laporan_bulan'], 10));
-                                echo strtoupper($monthName);
+                            $bulan = array("Saldo Awal", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember", "Penyesuaian");
+                            echo strtoupper($bulan[$_SESSION['laporan_bulan']])
                             ?>
                         </th>
                         <th colspan="3" class="right_side">
@@ -39,9 +39,13 @@
                             sampai dengan <span class="akhir-periode-string">
                                          <?php
 
-                                         $var = $_SESSION['akhir_periode'];
-                                         $date = str_replace('/', '-', $var);
-                                         echo date("d-M-Y", strtotime($date) );
+                                         if($_SESSION['laporan_bulan'] != '13'){
+                                             $var = $_SESSION['akhir_periode'];
+                                             $date = str_replace('/', '-', $var);
+                                             echo date("d-M-Y", strtotime($date) );
+                                         } else {
+                                             echo "31-Jan-".((int)$_SESSION['laporan_tahun'] + 1);
+                                         }
 
                                          ?>
                         </th>
@@ -67,7 +71,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Neraca</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="overflow-x: auto">
             <table class="table table-bordered display nowrap" width="100%" cellspacing="0" style="margin-bottom: 0;">
                 <tr style="visibility: hidden;" >
                     <?php
@@ -124,7 +128,7 @@
                             ?>
                         </tr>
                         <tr>
-                            <th colspan="4" style="background-color: #dceafd; text-align: right"><span style="float: left">TOTAL ASET</span><span id="total_aset"></span></th>
+                            <th colspan="4" style="background-color: #dceafd; text-align: right"><span style="float: left">TOTAL</span><span id="total_aset"></span></th>
                         </tr>
                     </table>
                 </div>
@@ -169,7 +173,7 @@
                             ?>
                         </tr>
                         <tr>
-                            <th colspan="4" style="background-color: #fddce5; text-align: right;"><span style="float: left">TOTAL KEWAJIBAN DAN EKUITAS</span><span id="total_kewajiban_ekuitas"></span></th>
+                            <th colspan="4" style="background-color: #fddce5; text-align: right;"><span style="float: left">TOTAL</span><span id="total_kewajiban_ekuitas"></span></th>
                         </tr>
                     </table>
                 </div>
@@ -182,97 +186,11 @@
 
 </div>
 <!-- End of Main Content -->
-
 <style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-
-    tr{
-        font-size: 14px;
-    }
-
-    th{
-        color: black;
-    }
-
-    td{
-        color: #333333;
-    }
-
-    td, th{
+    tr, td{
         padding: 0.4rem !important;
     }
-
-    .left_side{
-        background-color: rgba(183,214,170,1);
-        color: rgba(40,77,23,1);
-
-    }
-
-    .middle_side{
-        text-align: center;
-        background-color: rgba(160,198,230,1);
-        color: rgba(13,58,100,1);
-    }
-
-    .right_side{
-        text-align: center;
-        background-color: rgba(120,165,174,1);
-        color: rgba(37,77,86,1);
-    }
-
-    .initial_cell{
-        width: 12.5%;
-    }
-
-    .secondary_cell{
-        width: 25%;
-    }
 </style>
-
 <!-- Page level custom scripts -->
 
 <!-- <script src="<?php echo base_url('assets/js/startbootstrap/demo/datatables-demo.js');?>"></script>-->

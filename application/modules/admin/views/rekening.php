@@ -1,5 +1,26 @@
 
 
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this record? This process cannot be undone.</p>
+            </div>
+            <div class="alert alert-danger alert-delete" role="alert" style="display: none;">
+                FAILED TO DELETE RECORD
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -54,11 +75,14 @@
                     <div class="form-group" >
                         <label  class="col-form-label">No. Rekening</label>
                         <input type="text" id="no_rekening" name="no_rekening" onkeydown="isNumber(e)" class="form-control form-active-control">
+                        <div class="invalid-feedback invalid-norek">Required</div>
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">Nama Rekening</label>
                         <input type="text" id="nama_rekening" name="nama_rekening" class="form-control form-active-control">
+                        <div class="invalid-feedback invalid-namarekening">Required</div>
                     </div>
+
                     <div class="form-group" >
                         <label  class="col-form-label">Golongan</label>
                         <select id="id_golongan" name="id_golongan" class="form-control form-active-control">
@@ -71,6 +95,7 @@
 
                             <?php } ?>
                         </select>
+                        <div class="invalid-feedback invalid-golongan">Required</div>
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">S/N</label>
@@ -79,10 +104,15 @@
 
                     <input type="hidden" name="id_rekening" id="id_rekening" value="0">
                 </form>
+
+                <div class="alert alert-danger alert-exist" role="alert" style="display: none;">
+                    Data already exists in database.
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="modal-button-view-only">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger delete-rekening">Hapus</button>
                     <button type="button" class="btn btn-primary edit-rekening">Edit</button>
                 </div>
                 <div class="modal-button-save">
@@ -96,54 +126,6 @@
 </div>
 
 
-<style>
-    .tr-hover:hover{
-        cursor: pointer;
-        background: #ffe1dd;
-    }
-
-    .btn-primary{
-        background: #a50000;
-        color: white;
-        border: 1px solid white;
-        transition: .2s;
-    }
-
-    .btn-primary:hover{
-        background: white;
-        color: #a50000;
-        border: 1px solid #a50000;
-    }
-
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%; /* This rule is very important, please do not ignore this! */
-    }
-
-    #canvas {
-        height: 600px;
-        width: 600px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    .img-container {
-        /* Never limit the container height here */
-        max-width: 100%;
-    }
-
-    .img-container img {
-        /* This is important */
-        width: 100%;
-    }
-
-    .cropper-container{
-        max-width: 740px !important;
-        margin-bottom: 60px;
-    }
-</style>
-
 <!-- Page level custom scripts -->
 
 <!-- <script src="<?php echo base_url('assets/js/startbootstrap/demo/datatables-demo.js');?>"></script>-->
@@ -153,6 +135,36 @@
     product_url = '<?php echo base_url('product/');?>';
 
     get_all_rekening();
+
+    $('.delete-rekening').click(function(e){
+        e.preventDefault();
+
+        $('#rekening-modal').modal('hide')
+        $('#deleteModal').modal('show')
+    })
+
+    $('.confirm-delete').click(function(e){
+        $('.loading').css("display", "block");
+        e.preventDefault();
+        $.ajax({
+            type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url: admin_url + 'delete_rekening', // the url where we want to POST// our data object
+            dataType: 'json',
+            data: {id_rekening: $('#id_rekening').val()},
+            success: function (response) {
+
+                if(response.Status == "OK"){
+                    $('#deleteModal').modal('hide')
+                    get_all_rekening();
+                } else if(response.Status == "ERROR"){
+                    $('.alert-delete').css("display", "block");
+                }
+
+                $('.loading').css("display", "none");
+            }
+        })
+
+    })
 
     function get_all_rekening(){
         $('.loading').css("display", "block");
@@ -179,7 +191,9 @@
                 $('#dataTable').DataTable().destroy();
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
-                    "order": [[ 1, "asc" ]]
+                    "order": [[ 1, "asc" ]],
+                    "scrollX": true,
+                    pagingType: "simple",
                 } );
 
                 $('.loading').css("display", "none");
@@ -190,6 +204,8 @@
     }
 
     $('.add-rekening').click(function (e) {
+        $('.invalid-feedback').css('display', 'none');
+        $('.alert-danger').css('display', 'none');
         e.preventDefault();
         setTimeout(function () {
             $('.modal-dialog').scrollTop(0);
@@ -203,6 +219,8 @@
     })
 
     $('#dataTable').on( 'click', 'tbody tr', function () {
+        $('.invalid-feedback').css('display', 'none');
+        $('.alert-danger').css('display', 'none');
         id_rekening = $('#dataTable').DataTable().row( this ).data()[0];
         $('.loading').css("display", "block");
         $('.Veil-non-hover').fadeIn();
@@ -245,11 +263,17 @@
             dataType: 'json',
             data: $('#rekening-form').serialize(),
             success: function (response) {
+                $('.invalid-feedback').css('display', 'none');
+                $('.alert-exist').css('display', 'none');
                 if(response.Status == "OK"){
                     get_all_rekening();
                     $('#rekening-modal').modal('hide');
-                } else {
-                    show_snackbar(response.Message);
+                } else if(response.Status == "ERROR"){
+                    response.Error.forEach(function(error){
+                        $('.'+ error +'').css('display', 'block');
+                    })
+                } else if(response.Status == "EXIST"){
+                    $('.alert-exist').css('display', 'block');
                 }
                 $('.loading').css("display", "none");
                 $('.Veil-non-hover').fadeOut();
