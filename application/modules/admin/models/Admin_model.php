@@ -254,6 +254,14 @@ class Admin_model extends CI_Model
         return $query;
     }
 
+    function golongan_check($no_golongan, $nama_golongan){
+        $sql = "SELECT * FROM golongan
+                WHERE no_golongan = '".$no_golongan."' OR nama_golongan = '".$nama_golongan."'";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
     function get_arus_kas_by_id($id){
         $sql = "SELECT * FROM arus_kas WHERE id_arus_kas = '".$id."'";
         $query = $this->db->query($sql);
@@ -542,6 +550,11 @@ class Admin_model extends CI_Model
     function delete_rekening($id_rekening){
         $this->db->where('id_rekening', $id_rekening);
         return $this->db->delete('rekening');
+    }
+
+    function delete_golongan($id_golongan){
+        $this->db->where('id_golongan', $id_golongan);
+        return $this->db->delete('golongan');
     }
 
     function get_record_year(){

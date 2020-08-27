@@ -1,4 +1,24 @@
 
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this record? This process cannot be undone.</p>
+            </div>
+            <div class="alert alert-danger alert-delete" role="alert" style="display: none;">
+                FAILED TO DELETE RECORD
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -55,10 +75,12 @@
                     <div class="form-group" >
                         <label  class="col-form-label">No. Golongan</label>
                         <input type="text" id="no_golongan" name="no_golongan" onkeydown="isNumber(e)" class="form-control form-active-control">
+                        <div class="invalid-feedback invalid-nogolongan">Required</div>
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">Nama Golongan</label>
                         <input type="text" id="nama_golongan" name="nama_golongan" class="form-control form-active-control">
+                        <div class="invalid-feedback invalid-namagolongan">Required</div>
                     </div>
                     <div class="form-group" >
                         <label  class="col-form-label">S/N</label>
@@ -80,10 +102,16 @@
 
                     <input type="hidden" name="id_golongan" id="id_golongan" value="0">
                 </form>
+
+                <div class="alert alert-danger alert-exist" role="alert" style="display: none;">
+                    Data already exists in database.
+                </div>
+
             </div>
             <div class="modal-footer">
                 <div class="modal-button-view-only">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger delete-golongan">Hapus</button>
                     <button type="button" class="btn btn-primary edit-golongan">Edit</button>
                 </div>
                 <div class="modal-button-save">
@@ -105,6 +133,35 @@
     product_url = '<?php echo base_url('product/');?>';
 
     get_all_golongan();
+
+    $('.delete-golongan').click(function(e){
+        e.preventDefault();
+
+        $('#golongan-modal').modal('hide')
+        $('#deleteModal').modal('show')
+    })
+
+    $('.confirm-delete').click(function(e){
+        $('.loading').css("display", "block");
+        e.preventDefault();
+        $.ajax({
+            type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url: admin_url + 'delete_golongan', // the url where we want to POST// our data object
+            dataType: 'json',
+            data: {id_golongan: $('#id_golongan').val()},
+            success: function (response) {
+
+                if(response.Status == "OK"){
+                    $('#deleteModal').modal('hide')
+                    get_all_golongan();
+                } else if(response.Status == "ERROR"){
+                    $('.alert-delete').css("display", "block");
+                }
+
+                $('.loading').css("display", "none");
+            }
+        })
+    })
 
     function get_all_golongan(){
         $('.loading').css("display", "block");
@@ -143,6 +200,8 @@
     }
 
     $('.add-golongan').click(function (e) {
+        $('.invalid-feedback').css('display', 'none');
+        $('.alert-danger').css('display', 'none');
         e.preventDefault();
         setTimeout(function () {
             $('.modal-dialog').scrollTop(0);
@@ -156,6 +215,8 @@
     })
 
     $('#dataTable').on( 'click', 'tbody tr', function () {
+        $('.invalid-feedback').css('display', 'none');
+        $('.alert-danger').css('display', 'none');
         id_golongan = $('#dataTable').DataTable().row( this ).data()[0];
         $('.loading').css("display", "block");
         $('.Veil-non-hover').fadeIn();
@@ -201,8 +262,13 @@
                 if(response.Status == "OK"){
                     get_all_golongan();
                     $('#golongan-modal').modal('hide');
-                } else {
-                    show_snackbar(response.Message);
+                } else if(response.Status == "ERROR"){
+                    $('.invalid-feedback').css('display', 'none');
+                    response.Error.forEach(function(error){
+                        $('.'+ error +'').css('display', 'block');
+                    })
+                } else if(response.Status == "EXIST"){
+                    $('.alert-exist').css('display', 'block');
                 }
                 $('.loading').css("display", "none");
                 $('.Veil-non-hover').fadeOut();

@@ -85,7 +85,7 @@
 
                     <div class="form-group" >
                         <label  class="col-form-label">Golongan</label>
-                        <select id="id_golongan" name="id_golongan" class="form-control form-active-control">
+                        <select id="id_golongan" name="id_golongan" class="form-control form-active-control selectpicker" data-live-search="true">
                             <option value="0"> -- Pilih Golongan --</option>
                             <?php foreach ($golongan_list as $golongan) { ?>
                                 <option value="<?php echo $golongan->id_golongan; ?>">
@@ -163,7 +163,6 @@
                 $('.loading').css("display", "none");
             }
         })
-
     })
 
     function get_all_rekening(){
@@ -269,6 +268,7 @@
                     get_all_rekening();
                     $('#rekening-modal').modal('hide');
                 } else if(response.Status == "ERROR"){
+                    $('.invalid-feedback').css('display', 'none');
                     response.Error.forEach(function(error){
                         $('.'+ error +'').css('display', 'block');
                     })

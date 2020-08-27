@@ -160,6 +160,17 @@ class Admin extends MX_Controller
         echo json_encode($return_arr);
     }
 
+    function delete_golongan(){
+        $id = htmlentities($_REQUEST['id_golongan'], ENT_QUOTES);
+        if($this->Admin_model->delete_golongan($id)){
+            $return_arr = array("Status" => 'OK', "Message" => '');
+        } else {
+            $return_arr = array("Status" => 'ERROR', "Message" => 'Gagal Mengahapus Data');
+        }
+
+        echo json_encode($return_arr);
+    }
+
     function get_all_golongan(){
         $data = $this->Admin_model->get_all_golongan();
         echo json_encode($data->result_object());
@@ -297,9 +308,30 @@ class Admin extends MX_Controller
         $neraca = htmlentities($_REQUEST['neraca'], ENT_QUOTES);
         $id_golongan = htmlentities($_REQUEST['id_golongan'], ENT_QUOTES);
 
-        $data = compact('no_golongan', 'nama_golongan','s_n_golongan', 'neraca');
-
         //validation
+        $error = array();
+
+        if(empty($no_golongan)){
+            array_push($error, "invalid-nogolongan");
+        }
+
+        if(empty($nama_golongan)){
+            array_push($error, "invalid-namagolongan");
+        }
+
+        if(!empty($error)){
+            $return_arr = array("Status" => 'ERROR', "Error" => $error);
+            echo json_encode($return_arr);
+            return;
+        }
+
+        if($this->Admin_model->golongan_check($no_golongan, $nama_golongan)->num_rows() > 0){
+            $return_arr = array("Status" => 'EXIST');
+            echo json_encode($return_arr);
+            return;
+        }
+
+        $data = compact('no_golongan', 'nama_golongan','s_n_golongan', 'neraca');
 
         if($id_golongan == 0){
             if($this->Admin_model->add_golongan($data)){
