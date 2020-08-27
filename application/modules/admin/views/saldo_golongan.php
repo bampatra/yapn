@@ -24,8 +24,8 @@
                         <th> Kredit </th>
                         <th>
                             <?php
-                            $monthName = date("F", mktime(0, 0, 0, $_SESSION['laporan_bulan'], 10));
-                            echo strtoupper($monthName);
+                            $bulan = array("Saldo Awal", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember", "Penyesuaian");
+                            echo strtoupper($bulan[((int)$_SESSION['laporan_bulan'])])
                             ?>
                         </th>
                         <th> Debet </th>

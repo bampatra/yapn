@@ -62,7 +62,7 @@
                         <th colspan="3" class="middle_side">
                             <?php
                                 $bulan = array("Saldo Awal", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember", "Penyesuaian");
-                                echo strtoupper($bulan[$_SESSION['laporan_bulan']])
+                                echo strtoupper($bulan[((int)$_SESSION['laporan_bulan'])])
                             ?>
                         </th>
                         <th colspan="3" class="right_side">
