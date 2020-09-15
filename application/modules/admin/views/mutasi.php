@@ -69,8 +69,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Mutasi</h6>
         </div>
         <div class="card-body">
-            <div>
-                <table class="table table-bordered display nowrap" id="dataTable" width="100%" cellspacing="0">
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="width: 10%">No</th>
@@ -177,7 +177,7 @@
                 $('#dataTable').DataTable({
                     "order": [[ 0, "asc" ]],
                     "pageLength": 16,
-                    "scrollX": true,
+                    // "scrollX": true,
                 } );
                 mutasi_chart(data);
                 // datatable_init(1, true);

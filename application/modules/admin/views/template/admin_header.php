@@ -18,18 +18,20 @@
 
     <!-- Custom styles for this template-->
     <link href="<?php echo base_url('assets/css/startbootstrap/sb-admin-2.css');?>" rel="stylesheet">
-    <link href="<?php echo base_url('assets/css/cropper.css
-    ');?>" rel="stylesheet">
+    <link href="<?php echo base_url('assets/css/cropper.css');?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
 
 
     <link href=" <?php echo base_url('assets/datatables/dataTables.bootstrap4.min.css');?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('assets/jquery/jquery.min.js');?>"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <script src="<?php echo base_url('assets/js/moment.js');?>"></script>
     <script src="<?php echo base_url('assets/js/cropper.js');?>"></script>
     <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.bundle.js');?>"></script>
@@ -46,7 +48,6 @@
     <script src="<?php echo base_url('assets/datatables/jquery.dataTables.min.js');?>"></script>
     <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap4.min.js');?>"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <style>
@@ -378,6 +379,13 @@
     @media (min-width: 576px) {
         .mobile-only {
             display: none;
+        }
+
+        .neraca-total{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
         }
     }
 
@@ -984,9 +992,23 @@
 
     function convertDate(inputFormat) {
         function pad(s) { return (s < 10) ? '0' + s : s; }
-        var d = new Date(inputFormat)
+        var d = new Date(inputFormat.replace(/\s/, 'T'))
         return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
     }
+
+    function datepicker_init(){
+        if ($('[type="date"]').prop('type') != 'date' ) {
+            $('[type="date"]').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        }
+    }
+
+    $(document).ready(function(){
+        datepicker_init();
+    })
+
+
 
 
 </script>

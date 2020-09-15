@@ -246,6 +246,15 @@ class Admin_model extends CI_Model
         return $query;
     }
 
+    function get_rekening_by_norek($norek){
+        $sql = "SELECT * FROM rekening a
+                INNER JOIN golongan b ON a.id_golongan = b.id_golongan
+                WHERE a.no_rekening = '".$norek."'";
+
+        $query = $this->db->query($sql);
+        return $query;
+    }
+
     function rekening_check($no_rekening, $nama_rekening){
         $sql = "SELECT * FROM rekening
                 WHERE no_rekening = '".$no_rekening."' OR nama_rekening = '".$nama_rekening."'";

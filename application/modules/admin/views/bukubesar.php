@@ -64,6 +64,7 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary download"> <i class="fas fa-print"></i> DOWNLOAD EXCEL </button>
         </div>
     </div>
 
@@ -74,8 +75,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Transaksi</h6>
         </div>
         <div class="card-body">
-            <div>
-                <table class="table table-bordered display nowrap" id="dataTable" width="100%" cellspacing="0">
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="width: 10%">Tanggal</th>
@@ -143,7 +144,7 @@
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
                     "bSort": false,
-                    "scrollX": true,
+                    // "scrollX": true,
                     pagingType: "simple",
                 } );
                 // datatable_init(1, true);
@@ -209,6 +210,21 @@
         $('.kredit').html('Loading...');
         $('.saldo').html('Loading...');
         get_rekening_detail();
+    })
+
+    $('.download').click(function(e){
+        e.preventDefault();
+        // $.ajax({
+        //     type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+        //     url: admin_url + 'download_bukubesar', // the url where we want to POST// our data object
+        //     dataType: 'json',
+        //     data: {no_rek: $('.no_rek').html(), s_n: $('.s_n').html()},
+        //     success: function (response) {
+        //     }
+        // })
+
+        window.location.href = admin_url + 'download_bukubesar?rek=' + $('.no_rek').html();
+
     })
 
 

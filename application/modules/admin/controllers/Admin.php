@@ -432,6 +432,9 @@ class Admin extends MX_Controller
 
     function add_transaksi(){
 
+//        echo json_encode($_REQUEST);
+//        return;
+
         $id_transaksi = htmlentities($_REQUEST['id_transaksi'], ENT_QUOTES);
         $tgl_transaksi = htmlentities($_REQUEST['tgl_transaksi'], ENT_QUOTES);
         $keterangan_transaksi = htmlentities($_REQUEST['keterangan_transaksi'], ENT_QUOTES);
@@ -446,6 +449,7 @@ class Admin extends MX_Controller
 
         //validation
 
+        $tgl_transaksi = str_replace('/', '-', $tgl_transaksi);
         if($date_radio == 'default'){
 
             if(empty($tgl_transaksi)){
@@ -531,6 +535,174 @@ class Admin extends MX_Controller
         $_SESSION['default_lembaga'] = $lembaga;
         echo json_encode(array("Status" => "OK", "Value" => $lembaga));
     }
+
+    function download_bukubesar(){
+        include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+
+        $startRow = 1;
+        $objPHPExcel = new PHPExcel();
+
+        $no_rek = htmlentities(trim($_GET['rek']), ENT_QUOTES);
+
+        $rekening = $this->Admin_model->get_rekening_by_norek($no_rek);
+
+        if($rekening->num_rows() == 0){
+            // return false
+        }
+
+        $rek = $rekening->row();
+        $s_n = $rek->s_n_golongan;
+        $nama_rek = $rek->nama_rekening;
+
+        $data = $this->Admin_model->get_bukubesar($no_rek, $s_n);
+
+        if($data->num_rows() == 0){
+            // return false
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("A".$startRow, $_SESSION['default_lembaga']);
+        $objPHPExcel->getActiveSheet()->getStyle("A$startRow")->getFont()->setBold( true );
+        $objPHPExcel->getActiveSheet()->getStyle("A$startRow")->getFont()->setItalic( true );
+        $objPHPExcel->getActiveSheet()->getStyle("A$startRow")->getFont()->setSize(14);
+
+        $startRow = 3;
+
+        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(6);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(18);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(31);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(16);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(16);
+        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(16);
+
+        $summary_data = $this->Admin_model->get_saldo_summary($no_rek)->row();
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("B".$startRow, "BUKU BESAR");
+        $objPHPExcel->getActiveSheet()->SetCellValue("C".$startRow, $nama_rek);
+        $objPHPExcel->getActiveSheet()->SetCellValue("E".$startRow, "DEBIT");
+        $objPHPExcel->getActiveSheet()->SetCellValue("F".$startRow, (int)$summary_data->TOTAL_DEBET);
+        $objPHPExcel->getActiveSheet()->getStyle("F$startRow")->getNumberFormat()->setFormatCode('#,##0');
+
+        $startRow++;
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("B".$startRow, "NO REK");
+        $objPHPExcel->getActiveSheet()->SetCellValue("C".$startRow, $no_rek);
+        $objPHPExcel->getActiveSheet()->SetCellValue("E".$startRow, "KREDIT");
+        $objPHPExcel->getActiveSheet()->SetCellValue("F".$startRow, (int)$summary_data->TOTAL_KREDIT);
+        $objPHPExcel->getActiveSheet()->getStyle("F$startRow")->getNumberFormat()->setFormatCode('#,##0');
+
+        $startRow++;
+
+        $objPHPExcel->getActiveSheet()->getStyle("F$startRow")->getFont()->setBold( true );
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("B".$startRow, "S/N");
+        $objPHPExcel->getActiveSheet()->SetCellValue("C".$startRow, $s_n);
+        $objPHPExcel->getActiveSheet()->SetCellValue("E".$startRow, "SALDO");
+
+        if($s_n == "Debet"){
+            $saldo = (int) $summary_data->TOTAL_DEBET - (int) $summary_data->TOTAL_KREDIT;
+        } else {
+            $saldo = (int) $summary_data->TOTAL_KREDIT - (int) $summary_data->TOTAL_DEBET;
+        }
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("F".$startRow, $saldo);
+        $objPHPExcel->getActiveSheet()->getStyle("F$startRow")->getNumberFormat()->setFormatCode('#,##0');
+
+        $objPHPExcel->getActiveSheet()->getStyle("B3:C$startRow")->applyFromArray(
+            array(
+                'borders' => array(
+                    'outline' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN,
+                        'color' => array('rgb' => 'DDDDDD')
+                    )
+                )
+            )
+        );
+
+        $objPHPExcel->getActiveSheet()->getStyle("E3:F$startRow")->applyFromArray(
+            array(
+                'borders' => array(
+                    'outline' => array(
+                        'style' => PHPExcel_Style_Border::BORDER_THIN,
+                        'color' => array('rgb' => 'DDDDDD')
+                    )
+                )
+            )
+        );
+
+        $startRow+=2;
+
+        $objPHPExcel->getActiveSheet()->SetCellValue("A".$startRow, "NO");
+        $objPHPExcel->getActiveSheet()->SetCellValue("B".$startRow, "TANGGAL");
+        $objPHPExcel->getActiveSheet()->SetCellValue("C".$startRow, "KETERANGAN");
+        $objPHPExcel->getActiveSheet()->SetCellValue("D".$startRow, "DEBET");
+        $objPHPExcel->getActiveSheet()->SetCellValue("E".$startRow, "KREDIT");
+        $objPHPExcel->getActiveSheet()->SetCellValue("F".$startRow, "MUTASI");
+
+        $objPHPExcel->getActiveSheet()->getStyle("A$startRow:F$startRow")->getFill()->applyFromArray(array(
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'startcolor' => array(
+                'rgb' => 'C0BEBF'
+            )
+        ));
+
+        $objPHPExcel->getActiveSheet()->getStyle("A$startRow:F$startRow")->getFont()->setBold( true );
+
+        $startRow++;
+        $data_start = $startRow;
+        $no = 1;
+
+        foreach($data->result_object() as $row){
+            $objPHPExcel->getActiveSheet()->SetCellValue("A".$startRow, $no);
+
+            // handles saldo awal and penyesuaian
+            if($row->month_transaksi != "0" && $row->month_transaksi != "13"){
+                $objPHPExcel->getActiveSheet()->SetCellValue("B".$startRow, date("D, M j, Y",strtotime($row->tgl_transaksi)));
+            }
+
+
+
+            $objPHPExcel->getActiveSheet()->SetCellValue("C".$startRow, html_entity_decode($row->keterangan_transaksi, ENT_QUOTES,'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue("D".$startRow, (int)$row->DEBET);
+            $objPHPExcel->getActiveSheet()->SetCellValue("E".$startRow, (int)$row->KREDIT);
+            $objPHPExcel->getActiveSheet()->SetCellValue("F".$startRow, (int)$row->MUTASI);
+
+            if($no % 2 == 0){
+                $objPHPExcel->getActiveSheet()->getStyle("A$startRow:F$startRow")->getFill()->applyFromArray(array(
+                    'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                    'startcolor' => array(
+                        'rgb' => 'F3F3F3'
+                    )
+                ));
+            }
+
+            $startRow++;
+            $no++;
+        }
+
+        $objPHPExcel->getActiveSheet()
+            ->getStyle("D$data_start:F$startRow")
+            ->getAlignment()
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);
+
+        $objPHPExcel->getActiveSheet()->getStyle("D$data_start:F$startRow")->getNumberFormat()->setFormatCode('#,##0');
+        $objPHPExcel->getActiveSheet()->getStyle("C$data_start:C$startRow")->getAlignment()->setWrapText(true);
+        $objPHPExcel->getActiveSheet()->getStyle("A$data_start:F$startRow")->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+
+        $objPHPExcel->getActiveSheet()->setShowGridlines(false);
+
+        $filename = "BukuBesar";
+        header('Content-Type: application/vnd.ms-excel'); //mime type
+        header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+
+
+
+    }
+
 
 
     function logout(){

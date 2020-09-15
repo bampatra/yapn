@@ -27,7 +27,7 @@
     <h1 class="h3 mb-2 text-gray-800">Transaksi</h1>
     <br>
 
-    <button class="btn btn-primary add-transaksi" style="background: #a50000; color: white; width: 300px;"> Tambah Transaksi </button>
+    <button class="btn btn-primary add-transaksi" style="color: white; width: 300px;"> Tambah Transaksi </button>
     <br> <br>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -61,12 +61,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered display nowrap" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="display: none">ID</th>
                         <th style="width: 10%">Tgl</th>
-                        <th style="width: 50%">Keterangan</th>
+                        <th style="width: 30%">Keterangan</th>
                         <th> Debet </th>
                         <th> Kredit </th>
                         <th> Nominal </th>
@@ -282,7 +282,7 @@
                 $('#dataTable').DataTable().destroy();
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
-                    "scrollX": true,
+                    // "scrollX": true,
                     "bSort": false,
                     pagingType: "simple",
                 } );
@@ -309,6 +309,7 @@
         $('.selectpicker').selectpicker('refresh');
         $('#transaksi_input').html(' <input type="date" id="tgl_transaksi" name="tgl_transaksi" class="form-control form-active-control">');
         $('#rekening-modal').modal('toggle');
+        datepicker_init();
     })
 
     $('#dataTable').on( 'click', 'tbody tr', function () {
@@ -370,6 +371,7 @@
         $('.modal-button-view-only').css('display', 'none');
         $('.form-active-control').prop('disabled', false);
         $('.selectpicker').selectpicker('refresh');
+        datepicker_init();
     })
 
     $('.save-transaksi').click(function(e){

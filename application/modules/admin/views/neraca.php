@@ -117,7 +117,7 @@
                             <th colspan="4" style="background-color: #dceafd;">Aset Tetap</th>
                         </tr>
                     </table>
-                    <table class="table table-bordered display nowrap" width="100%" cellspacing="0">
+                    <table class="table table-bordered display nowrap neraca-total" width="100%" cellspacing="0" >
                         <tr style="visibility: hidden;" >
                             <th style="width: 10%"></th>
                             <th style="width: 35%"></th>

@@ -13,24 +13,24 @@
             <h6 class="m-0 font-weight-bold text-primary">Transaksi</h6>
         </div>
         <div class="card-body">
-            <div>
-                <table class="table table-bordered display nowrap" id="dataTable" width="100%" cellspacing="0">
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th style="width: 10%">No</th>
-                        <th style="width: 30%">Golongan</th>
-                        <th>Neraca</th>
-                        <th> Debet </th>
-                        <th> Kredit </th>
-                        <th>
+                        <th style="width: 1%">No</th>
+                        <th style="width: 12%">Golongan</th>
+                        <th style="width: 10%">Neraca</th>
+                        <th style="width: 10%"> Debet </th>
+                        <th style="width: 10%"> Kredit </th>
+                        <th style="width: 10%">
                             <?php
                             $bulan = array("Saldo Awal", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember", "Penyesuaian");
                             echo strtoupper($bulan[((int)$_SESSION['laporan_bulan'])])
                             ?>
                         </th>
-                        <th> Debet </th>
-                        <th> Kredit </th>
-                        <th> Total </th>
+                        <th style="width: 10%"> Debet </th>
+                        <th style="width: 10%"> Kredit </th>
+                        <th style="width: 12%"> Total </th>
                     </tr>
                     </thead>
                     <tbody id="main-content">
@@ -112,7 +112,7 @@
                 $('#main-content').html(html);
                 $('#dataTable').DataTable({
                     "bSort": false,
-                    "scrollX": true,
+                    // "scrollX": true,
                     "pageLength": 50
                 } );
                 // datatable_init(1, true);
