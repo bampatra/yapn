@@ -75,9 +75,6 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-//	'hostname' => 'pira.cr7fkvrh6nmq.ap-southeast-1.rds.amazonaws.com',
-//	'username' => 'pira',
-//	'password' => 'password',
     'hostname' => 'us-cdbr-east-02.cleardb.com',
 	'username' => 'bba3e9625b0237',
 	'password' => 'efe1aaae',
